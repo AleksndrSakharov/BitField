@@ -1,7 +1,7 @@
 //
 // Created by 11ale on 03.10.2024.
 //
-
+#pragma once
 #include "BitField.h"
 
 
