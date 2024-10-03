@@ -71,24 +71,24 @@ public:
 
 
 
-friend ostream &operator<<(ostream &os, const BitField &x) {
-    int flag = 0;
-    BitField tmp(x);
-    os << "{";
-    for (int j = 0; j < tmp._sizeMem; j++)
-        for (int i = 0; i < 8; i++) {
-            if ((tmp._mem[j] & 1) && (j == tmp._sizeMem - 1) && (i == 7)) {
-                os << flag;
-            } else if (tmp._mem[j] & 1) {
-                os << flag << " ,";
+    friend ostream &operator<<(ostream &os, const BitField &x) {
+        int flag = 0;
+        BitField tmp(x);
+        os << "{";
+        for (int j = 0; j < tmp._sizeMem; j++)
+            for (int i = 0; i < 8; i++) {
+                if ((tmp._mem[j] & 1) && (j == tmp._sizeMem - 1) && (i == 7)) {
+                    os << flag;
+                } else if (tmp._mem[j] & 1) {
+                    os << flag << " ,";
+                }
+                flag++;
+                tmp._mem[j] >> 1;
             }
-            flag++;
-            tmp._mem[j] >> 1;
-        }
-    return os << "}";
-};
+        return os << "}";
+    };
 
-void operator~();
+    void operator~();
 
 };
 
