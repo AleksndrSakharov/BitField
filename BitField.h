@@ -21,9 +21,9 @@ private:
     size_t _sizeBit;
     uint16_t *_mem;
 
-    size_t GetMemIndex(size_t n);
+    size_t GetMemIndex(size_t n) const;
 
-    uint16_t GetMask(size_t n);
+    uint16_t GetMask(size_t n) const;
 
 public:
     BitField(size_t sizeBit);
@@ -32,11 +32,11 @@ public:
 
     BitField(const BitField &tmp);
 
-    BitField &Universe();
+    BitField Universe();
 
     void SetBit(size_t n);
 
-    uint16_t GetBit(size_t n);
+    uint8_t GetBit(size_t n);
 
     void ClrBit(size_t n);
 
@@ -46,11 +46,11 @@ public:
 
     bool operator==(const BitField &tmp) const;
 
-    BitField &operator^(const BitField &tmp) const;
+    BitField operator^(const BitField &tmp) const;
 
-    BitField &operator&(const BitField &tmp) const;
+    BitField operator&(const BitField &tmp) const;
 
-    BitField &operator|(const BitField &tmp) const;
+    BitField operator|(const BitField &tmp) const;
 
     friend istream &operator>>(istream &in, BitField &x) {
         size_t sizeBit;
