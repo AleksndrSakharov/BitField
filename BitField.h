@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <unordered_map>
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 
 using namespace std;
@@ -18,11 +19,11 @@ class BitField {
 private:
     size_t _sizeMem;
     size_t _sizeBit;
-    uint8_t *_mem;
+    uint16_t *_mem;
 
     size_t GetMemIndex(size_t n);
 
-    uint8_t GetMask(size_t n);
+    uint16_t GetMask(size_t n);
 
 public:
     BitField(size_t sizeBit);
@@ -35,7 +36,7 @@ public:
 
     void SetBit(size_t n);
 
-    uint8_t GetBit(size_t n);
+    uint16_t GetBit(size_t n);
 
     void ClrBit(size_t n);
 
@@ -55,8 +56,8 @@ public:
         size_t sizeBit;
         in >> sizeBit;
         x._sizeBit = sizeBit;
-        x._sizeMem = (x._sizeBit / 8) + 1;
-        x._mem = new uint8_t[x._sizeMem];
+        x._sizeMem = (x._sizeBit / 16) + 1;
+        x._mem = new uint16_t[x._sizeMem];
         string tmp;
         string close_one = " ", close_two = "\t";
         while (1) {
@@ -76,8 +77,8 @@ public:
         BitField tmp(x);
         os << "{";
         for (int j = 0; j < tmp._sizeMem; j++)
-            for (int i = 0; i < 8; i++) {
-                if ((tmp._mem[j] & 1) && (j == tmp._sizeMem - 1) && (i == 7)) {
+            for (int i = 0; i < 16; i++) {
+                if ((tmp._mem[j] & 1) && (j == tmp._sizeMem - 1) && (i == 15)) {
                     os << flag;
                 } else if (tmp._mem[j] & 1) {
                     os << flag << " ,";
