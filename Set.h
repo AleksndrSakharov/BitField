@@ -7,7 +7,7 @@ private:
     size_t _maxPower;
 
 public:
-    Set(size_t maxPower);
+    Set(size_t maxPower);//реализовать метод, возвращающий стд вектор(юинт64т) гетприорити() конст
     Set(const Set& tmp);
     Set(const BitField& tmp);
 
@@ -16,6 +16,7 @@ public:
     bool IsMember(uint64_t elem);
     size_t GetMaxPow() const;
 
+    vector<uint64_t> GetPriority() const;
     operator BitField();
     bool operator==(const Set& tmp);
     Set& operator= (const Set& tmp);

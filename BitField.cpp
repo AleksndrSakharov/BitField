@@ -19,13 +19,15 @@ BitField::~BitField() {
 BitField::BitField(const BitField& tmp) {
     _sizeBit = tmp._sizeBit;
     _sizeMem = tmp._sizeMem;
+    delete [] _mem;
+    _mem = nullptr;
     _mem = new uint16_t[tmp._sizeMem];
     for (int i = 0; i < _sizeBit; i++)
         _mem[i] = tmp._mem[i];
 }
 
 size_t BitField::GetMemIndex(size_t n) const{
-    if (n < _sizeBit)    return n / 16;
+    if (n < _sizeBit) return n / 16;
     throw "Bit out of range";
 }
 
@@ -134,7 +136,6 @@ istream& operator>>(istream& in, BitField& x) {
     while (true) {
         in >> tmp;
         x.SetBit(tmp);
-        //����� �� ����� �� ������-�� ��������
     }
     return in;
 }
