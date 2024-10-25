@@ -16,7 +16,7 @@ public:
     bool IsMember(uint64_t elem);
     size_t GetMaxPow() const;
 
-    vector<uint64_t> GetPriority() const;
+    vector<uint64_t> GetPrimary() const;
     operator BitField();
     bool operator==(const Set& tmp);
     Set& operator= (const Set& tmp);

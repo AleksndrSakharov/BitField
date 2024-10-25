@@ -19,10 +19,10 @@ BitField::~BitField() {
 BitField::BitField(const BitField& tmp) {
     _sizeBit = tmp._sizeBit;
     _sizeMem = tmp._sizeMem;
-    delete [] _mem;
-    _mem = nullptr;
+    // delete [] _mem;
+    // _mem = nullptr;
     _mem = new uint16_t[tmp._sizeMem];
-    for (int i = 0; i < _sizeBit; i++)
+    for (int i = 0; i < _sizeMem; i++)
         _mem[i] = tmp._mem[i];
 }
 
@@ -46,6 +46,7 @@ void BitField::ClrBit(size_t n) {
 }
 
 uint8_t BitField::GetBit(size_t n) {
+    if ((n > _sizeBit) || (n < 0)) throw "Negative n";
     uint16_t tmp = _mem[GetMemIndex(n)];
     tmp &= GetMask(n);
     return (tmp != 0 ? 1 : 0);
@@ -57,9 +58,11 @@ size_t BitField::GetLenght() const {
 
 BitField& BitField::operator=(const BitField& tmp) {
     if (_sizeMem != tmp._sizeMem) {
+        // *this = BitField(1);
         _sizeMem = tmp._sizeMem;
         _sizeMem = tmp._sizeMem;
         delete[] _mem;
+        _mem = nullptr;
         _mem = new uint16_t[_sizeMem];
     }
     for (size_t i = 0; i < _sizeMem; ++i)
@@ -75,15 +78,18 @@ bool BitField::operator==(const BitField& tmp) const {
 }
 
 BitField BitField::operator~() {
-    BitField result(_sizeBit);
-    for (int i = 0; i < _sizeMem; i++)
-        result._mem[i] = ~_mem[i];
-    return result;
+    BitField a(*this);
+    for (int i = 0; i < (a._sizeMem - 1); i++) a._mem[i] = ~(a._mem[i]);
+	for (int i = ((a._sizeMem - 1) * (sizeof(uint16_t) * 8)); i < (a._sizeBit); i++) {
+		if (a.GetBit(i) == 1) a.ClrBit(i);
+		else a.SetBit(i);
+	}
+	return a;
 }
 
 BitField& BitField::operator&(const BitField& tmp) const {
-    BitField result(_sizeBit);
-    for (int i = 0; i < _sizeMem; i++)
+    BitField result(max(_sizeBit, tmp._sizeBit));
+    for (int i = 0; i < min(_sizeBit, tmp._sizeBit); i++)
         result._mem[i] = _mem[i] & tmp._mem[i];
     return result;
 }
