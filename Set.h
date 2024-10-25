@@ -12,7 +12,7 @@ public:
     Set(const BitField& tmp);
 
     void InsElem(uint64_t elem);
-    void DelElem(uint64_t elem);
+    void DelElem(uint64_t elem); 
     bool IsMember(uint64_t elem);
     size_t GetMaxPow() const;
 

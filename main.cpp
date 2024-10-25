@@ -10,3 +10,4 @@ int main() {
     for (size_t i = 0; i < vec.size(); i++) cout << vec[i] << endl;
     return 0;
 }
+ 

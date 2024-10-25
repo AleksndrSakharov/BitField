@@ -12,7 +12,7 @@ Set::Set(const Set& tmp):_maxPower(tmp.GetMaxPow()), _bitfield(tmp._bitfield) {
 Set::Set(const size_t maxPower) :_bitfield(maxPower) { _maxPower = maxPower; }
 
 void Set::InsElem(uint64_t elem) {
-    if (elem < _maxPower)
+    if (elem < _maxPower) 
         _bitfield.SetBit(elem);
     else {
         throw "Elem out of range";

@@ -9,7 +9,7 @@ BitField::BitField(size_t sizeBit) {
         _mem[i] = 0;
 }
 
-BitField::~BitField() {
+BitField::~BitField() { 
     _memSize = 0;
     _sizeBit = 0;
     delete[] _mem;
