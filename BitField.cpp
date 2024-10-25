@@ -43,7 +43,7 @@ void BitField::SetBit(size_t n) {
         size_t s = _memSize;
         _mem[GetMemIndex(n)] |= GetMask(n);
     }
-        
+
 }
 
 void BitField::ClrBit(size_t n) {
@@ -57,7 +57,7 @@ uint8_t BitField::GetBit(size_t n) {
     return (tmp != 0 ? 1 : 0);
 }
 
-size_t BitField::GetLenght() const {
+size_t BitField::GetLength() const {
     return _sizeBit;
 }
 
@@ -72,7 +72,7 @@ BitField& BitField::operator=(const BitField& tmp) {
     }
     for (size_t i = 0; i < _memSize; ++i)
         _mem[i] = tmp._mem[i];
-
+    return *this;
 }
 
 bool BitField::operator==(const BitField& tmp) const {
@@ -85,14 +85,14 @@ bool BitField::operator==(const BitField& tmp) const {
 BitField BitField::operator~() {
     BitField a(*this);
     for (int i = 0; i < (a._memSize - 1); i++) a._mem[i] = ~(a._mem[i]);
-	for (int i = ((a._memSize - 1) * (sizeof(uint16_t) * 8)); i < (a._sizeBit); i++) {
-		if (a.GetBit(i) == 1) a.ClrBit(i);
-		else a.SetBit(i);
-	}
-	return a;
+    for (int i = ((a._memSize - 1) * (sizeof(uint16_t) * 8)); i < (a._sizeBit); i++) {
+        if (a.GetBit(i) == 1) a.ClrBit(i);
+        else a.SetBit(i);
+    }
+    return a;
 }
 
-BitField BitField::operator&(const BitField& tmp) const {
+BitField BitField::operator&(const BitField& tmp)  {
     BitField result(max(_sizeBit, tmp._sizeBit));
     for (int i = 0; i < min(_sizeBit, tmp._sizeBit); i++)
         result._mem[i] = _mem[i] & tmp._mem[i];
@@ -100,9 +100,9 @@ BitField BitField::operator&(const BitField& tmp) const {
 }
 
 
-BitField BitField::operator|(const BitField& tmp) const {
+BitField BitField::operator|(const BitField& tmp)  {
     BitField result(max(_sizeBit,tmp._sizeBit));
-    int i = 0; 
+    int i = 0;
     while (i < min(_memSize, tmp._memSize)) {
         result._mem[i] = _mem[i] | tmp._mem[i];
         i++;
@@ -122,7 +122,7 @@ BitField BitField::operator|(const BitField& tmp) const {
     return result;
 }
 
-BitField BitField::operator^(const BitField& tmp) const {
+BitField BitField::operator^(const BitField& tmp)  {
     BitField result(_sizeBit);
     for (int i = 0; i < _memSize; i++)
         result._mem[i] = _mem[i] ^ tmp._mem[i];
