@@ -47,7 +47,7 @@ void BitField::SetBit(size_t n) {
 }
 
 void BitField::ClrBit(size_t n) {
-    _mem[GetMemIndex(n)] &= ~GetMask(n);
+    _mem[GetMemIndex(n)] &= GetMask(n);
 }
 
 uint8_t BitField::GetBit(size_t n) {
