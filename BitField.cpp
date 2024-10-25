@@ -83,13 +83,15 @@ bool BitField::operator==(const BitField& tmp) const {
 }
 
 BitField BitField::operator~() {
-    BitField a(*this);
-    for (int i = 0; i < (a._memSize - 1); i++) a._mem[i] = ~(a._mem[i]);
-    for (int i = ((a._memSize - 1) * (sizeof(uint16_t) * 8)); i < (a._sizeBit); i++) {
-        if (a.GetBit(i) == 1) a.ClrBit(i);
-        else a.SetBit(i);
+    BitField result(_sizeBit);
+    for (int i = 0; i < _sizeBit; i++) {
+        if (this->GetBit(i) == 0)
+            result.SetBit(i);
+        else
+            result.ClrBit(i);
     }
-    return a;
+
+    return result;
 }
 
 BitField BitField::operator&(const BitField& tmp)  {
