@@ -3,7 +3,7 @@
 
 BitField::BitField(size_t sizeBit) {
     _sizeBit = sizeBit;
-    _sizeMem = (_sizeBit / (16 * (sizeof(uint16_t)))) + (sizeBit % (16 * sizeof(uint16_t)) != 0);
+    _sizeMem = (_sizeBit / (16 * (sizeof(uint16_t)))) + (_sizeBit % (16 * sizeof(uint16_t)) != 0);
     _mem = new uint16_t[_sizeMem];
     for (size_t i = 0; i < _sizeMem; ++i)
         _mem[i] = 0;
@@ -27,7 +27,7 @@ BitField::BitField(const BitField& tmp) {
 }
 
 size_t BitField::GetMemIndex(size_t n) const{
-    if (n < _sizeBit) return n / 16;
+    if (n < _sizeBit) return n / (16 * sizeof(uint16_t));
     throw "Bit out of range";
 }
 
@@ -37,8 +37,13 @@ uint16_t BitField::GetMask(size_t n) {
 }
 
 void BitField::SetBit(size_t n) {
-    if (n < _sizeBit)
+    if (n <= _sizeBit){
+        uint16_t getmem = GetMemIndex(n);
+        uint16_t getmask = GetMask(n);
+        size_t s = _sizeMem;
         _mem[GetMemIndex(n)] |= GetMask(n);
+    }
+        
 }
 
 void BitField::ClrBit(size_t n) {
@@ -87,7 +92,7 @@ BitField BitField::operator~() {
 	return a;
 }
 
-BitField& BitField::operator&(const BitField& tmp) const {
+BitField BitField::operator&(const BitField& tmp) const {
     BitField result(max(_sizeBit, tmp._sizeBit));
     for (int i = 0; i < min(_sizeBit, tmp._sizeBit); i++)
         result._mem[i] = _mem[i] & tmp._mem[i];
@@ -95,21 +100,21 @@ BitField& BitField::operator&(const BitField& tmp) const {
 }
 
 
-BitField& BitField::operator|(const BitField& tmp) const {
+BitField BitField::operator|(const BitField& tmp) const {
     BitField result(max(_sizeBit,tmp._sizeBit));
     int i = 0; 
-    while (i < min(_sizeBit, tmp._sizeBit)) {
+    while (i < min(_sizeMem, tmp._sizeMem)) {
         result._mem[i] = _mem[i] | tmp._mem[i];
         i++;
     }
     if (_sizeBit > tmp._sizeBit) {
-        while (i < _sizeBit) {
+        while (i < _sizeMem) {
             result._mem[i] = _mem[i];
             i++;
         }
     }
     else if (_sizeBit > tmp._sizeBit) {
-        while (i < tmp._sizeBit) {
+        while (i < tmp._sizeMem) {
             result._mem[i] = _mem[i];
             i++;
         }
@@ -117,14 +122,14 @@ BitField& BitField::operator|(const BitField& tmp) const {
     return result;
 }
 
-BitField& BitField::operator^(const BitField& tmp) const {
+BitField BitField::operator^(const BitField& tmp) const {
     BitField result(_sizeBit);
     for (int i = 0; i < _sizeMem; i++)
         result._mem[i] = _mem[i] ^ tmp._mem[i];
     return result;
 }
 
-BitField& BitField::Universe() {
+BitField BitField::Universe() {
     BitField result(_sizeBit);
     for (int i = 0; i < _sizeMem; i++)
         result._mem[i] = 65535;

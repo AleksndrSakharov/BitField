@@ -33,12 +33,12 @@ public:
     
     BitField& operator=(const BitField& tmp);
     bool operator==(const BitField& tmp) const;
-    BitField& operator^(const BitField& tmp) const;
-    BitField& operator&(const BitField& tmp) const;
-    BitField& operator|(const BitField& tmp) const;
+    BitField operator^(const BitField& tmp) const;
+    BitField operator&(const BitField& tmp) const;
+    BitField operator|(const BitField& tmp) const;
     BitField operator~();
     
-    BitField& Universe();
+    BitField Universe();
 
     friend istream& operator>>(istream& in, BitField& x);
     friend ostream& operator<<(ostream& os, const BitField& x);
