@@ -14,7 +14,7 @@ using namespace std;
 
 class BitField {
 private:
-    size_t _sizeMem;
+    size_t _memSize;
     size_t _sizeBit;
     uint16_t* _mem;
     
